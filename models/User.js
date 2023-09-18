@@ -14,11 +14,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      // validate: {
-      //   validator: () => Promise.resolve(false),
-      //   message: 'Email validation failed'
-      // }
-      // ask about validate documentation
+      lowercase: true,
+      match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
     },
     thoughts: [
       {
@@ -35,14 +32,15 @@ const userSchema = new Schema(
     ],
     
     },
-  // todo: Array of _id values referencing the models above
-  // todo:Schema Settings:Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
-  {
-    toJSON: {
-      getters: true,
-    },
-    // what does line 40 and 41 mean?
-  }
+    {
+      virtuals: {
+        friendCount: {
+          get() {
+            return `${this.friends.length}`;
+          }
+        }
+      }
+    }
 );
 
 const User = model('User', userSchema);

@@ -18,13 +18,14 @@ connection.once('open', async () => {
     }
   // Create empty array to hold the users
   const users = [];
+  const thoughts = [];
 
   // Loop 20 times -- add users to the users array
   for (let i = 0; i < 20; i++) {
     // Get some random assignment objects using a helper function that we imported from ./data
-    const assignments = getRandomAssignments(20);
+    const reactions = getRandomAssignments(20);
 
-    const fullName = getRandomName();
+    const user = getRandomName();
     const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
 
     users.push({
