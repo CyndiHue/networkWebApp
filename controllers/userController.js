@@ -8,7 +8,7 @@ module.exports = {
         const users = await User.find();
         const userObj = {
           users,
-          headCount: await headCount(),
+          // friendCount: await friendCount(),
         };
         return res.json(userObj);
       } catch (err) {
