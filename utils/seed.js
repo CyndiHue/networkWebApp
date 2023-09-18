@@ -25,8 +25,6 @@ connection.once('open', async () => {
     const assignments = getRandomAssignments(20);
 
     const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
     const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
 
     users.push({
