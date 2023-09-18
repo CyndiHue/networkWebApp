@@ -32,7 +32,8 @@ const userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'User',
       },
-    ]
+    ],
+    
     },
   // todo: Array of _id values referencing the models above
   // todo:Schema Settings:Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
