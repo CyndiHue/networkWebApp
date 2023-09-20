@@ -1,5 +1,5 @@
 const connection = require('../config/connection');
-const { Thought, User } = require('../models');
+const { Thought, User, Reaction } = require('../models');
 
 
 connection.on('error', (err) => err);
@@ -17,4 +17,13 @@ connection.once('open', async () => {
       await connection.dropCollection('users');
     }
 
+    const userData = [];
+    const thoughtsData = getRandomThoughts(10);
+   
+    await User.collection.insertMany(userData);
+    await Thought.collection.insertMany(thoughtsData);
+    console.table(users);
+    console.table(thoughts);
+    console.info('Seeding complete!');
+    process.exit(0);
 });

@@ -1,5 +1,4 @@
-const { ObjectId } = require('mongoose').Types;
-const { User, Thought } = require('../models');
+const { User, Thought, Reaction } = require('../models');
 
 module.exports = {
     // Get all users
@@ -21,15 +20,13 @@ module.exports = {
       try {
         const user = await User.findOne({ _id: req.params.userId })
           .select('-__v')
-          .lean();
   
         if (!user) {
           return res.status(404).json({ message: 'No user with that ID' });
         }
   
         res.json({
-          user,
-          grade: await grade(req.params.userId),
+          user
         });
       } catch (err) {
         console.log(err);
@@ -72,35 +69,30 @@ module.exports = {
         res.status(500).json(err);
       }
     },
-  
-    // Add an reaction to a user
-    async addReaction(req, res) {
+    async addFriend(req, res) {
       try {
-        console.log('You are adding an reaction');
-        console.log(req.body);
         const user = await User.findOneAndUpdate(
           { _id: req.params.userId },
-          { $addToSet: { reactions: req.body } },
+          { $addToSet: { friends: req.body } },
           { runValidators: true, new: true }
         );
   
         if (!user) {
-          return res
-            .status(404)
-            .json({ message: 'No user found with that ID :(' })
+          return res.status(404).json({ message: 'No user with this id!' });
         }
   
-        res.json(user);
+        res.json("added friend");
       } catch (err) {
         res.status(500).json(err);
       }
     },
-    // Remove reaction from a user
-    async removeReaction(req, res) {
+    // Remove friend from a user
+    async removeFriend(req, res) {
+      // lines 92-96 something is off. ask for help
       try {
         const user = await User.findOneAndUpdate(
           { _id: req.params.userId },
-          { $pull: { reaction: { reactionId: req.params.reactionId } } },
+          { $pull: { friends: { friendId: req.params.friendId } } },
           { runValidators: true, new: true }
         );
   
@@ -110,7 +102,7 @@ module.exports = {
             .json({ message: 'No user found with that ID :(' });
         }
   
-        res.json(user);
+        res.json('friend removed');
       } catch (err) {
         res.status(500).json(err);
       }
